@@ -136,7 +136,7 @@ class UNetCrossAttentionHooker(ObjectHooker[CrossAttention]):
     def _hooked_attention(hk_self, self, query, key, value, sequence_length=None, dim=None, use_context: bool = True):
         batch_size_attention = query.shape[0]
         sequence_length = query.shape[1]
-        dim = value.shape[2]
+        dim = value.shape[2] * self.heads
         hidden_states = torch.zeros(
             (batch_size_attention, sequence_length, dim // self.heads), device=query.device, dtype=query.dtype
         )
